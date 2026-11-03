@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { 
-  Wallet, TrendingUp, ShieldCheck, 
-  CreditCard, ArrowRight, ShieldAlert, Sparkles, Plus
+  TrendingUp, ShieldCheck, CreditCard, ShieldAlert, Sparkles, Plus
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -24,26 +23,31 @@ const transactions = [
 
 export function Dashboard() {
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <div className="flex justify-between items-center mb-2">
+    <div className="max-w-7xl mx-auto space-y-6 pb-10">
+      
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1 flex items-center gap-2">
             Good morning, Student <span className="text-yellow-500">👋</span>
           </h2>
           <p className="text-gray-400 text-sm">Here is your financial and purchase intelligence summary.</p>
         </div>
-        <Link to="/purchase" className="bg-[#FF6B35] hover:bg-[#e65a2a] text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 transition-all shadow-lg shadow-[#FF6B35]/20">
+        <Link to="/purchase" className="bg-[#FF6B35] hover:bg-[#e65a2a] text-white px-5 py-2.5 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#FF6B35]/20 w-full md:w-auto">
           <Plus size={18} /> New Analysis
         </Link>
       </div>
 
+      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-[#151B23] p-6 rounded-2xl border border-gray-800/60 shadow-xl relative overflow-hidden group hover:border-[#FF6B35]/30 transition-colors">
+        
+        {/* Chart Card */}
+        <div className="lg:col-span-2 bg-[#151B23] p-4 md:p-6 rounded-2xl border border-gray-800/60 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF6B35]/5 rounded-full blur-3xl -z-10"></div>
-          <div className="flex justify-between items-start mb-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
               <p className="text-gray-400 text-sm font-medium mb-1">Total Balance</p>
-              <h3 className="text-4xl font-bold text-white">₹85,000.00</h3>
+              <h3 className="text-3xl md:text-4xl font-bold text-white">₹85,000.00</h3>
               <p className="text-xs text-[#20C997] flex items-center gap-1 mt-2 font-medium bg-[#20C997]/10 w-fit px-2 py-1 rounded-md">
                 <TrendingUp size={14} /> +12.5% from last month
               </p>
@@ -76,23 +80,27 @@ export function Dashboard() {
           </div>
         </div>
 
+        {/* Right Column */}
         <div className="space-y-6">
+          
+          {/* Virtual Card */}
           <div className="bg-gradient-to-br from-[#1a222c] to-[#0B0F14] border border-gray-800/60 p-6 rounded-2xl shadow-xl relative overflow-hidden group cursor-pointer hover:border-[#FF6B35]/30 transition-colors">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6B35]/10 rounded-full blur-2xl group-hover:bg-[#FF6B35]/20 transition-all"></div>
-            <div className="flex justify-between items-start mb-8">
+            <div className="flex justify-between items-start mb-6 md:mb-8">
               <div className="bg-[#FF6B35]/20 backdrop-blur-md p-2 rounded-lg">
                 <CreditCard size={24} className="text-[#FF6B35]" />
               </div>
               <span className="text-gray-400 font-bold italic text-lg tracking-wider">VISA</span>
             </div>
             <p className="text-gray-400 text-sm mb-1">Available Balance</p>
-            <h3 className="text-3xl font-bold text-white mb-6">₹60,000.00</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">₹60,000.00</h3>
             <div className="flex justify-between items-center text-gray-500 text-sm font-mono">
               <span>**** **** **** 4289</span>
               <span>12/28</span>
             </div>
           </div>
 
+          {/* AI Alerts */}
           <div className="bg-[#151B23] p-5 rounded-2xl border border-gray-800/60 shadow-lg cursor-pointer hover:border-[#FF6B35]/30 transition-colors">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles size={18} className="text-[#FF6B35]" />
@@ -111,17 +119,20 @@ export function Dashboard() {
         </div>
       </div>
 
+      {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Recent Transactions */}
         <div className="lg:col-span-2 bg-[#151B23] rounded-2xl border border-gray-800/60 shadow-lg overflow-hidden">
-          <div className="p-5 border-b border-gray-800/60 flex justify-between items-center bg-[#1a222c]">
+          <div className="p-4 md:p-5 border-b border-gray-800/60 flex justify-between items-center bg-[#1a222c]">
             <h3 className="font-bold text-white">Recent Transactions</h3>
             <button className="text-xs text-[#FF6B35] font-medium hover:text-[#e65a2a]">View All</button>
           </div>
           <div className="p-2">
             {transactions.map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between p-3 hover:bg-[#1a222c] rounded-xl transition-colors cursor-pointer">
+              <div key={tx.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 hover:bg-[#1a222c] rounded-xl transition-colors cursor-pointer gap-3 sm:gap-0">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#0B0F14] border border-gray-800 flex items-center justify-center text-lg shadow-inner">
+                  <div className="w-10 h-10 rounded-full bg-[#0B0F14] border border-gray-800 flex items-center justify-center text-lg shadow-inner shrink-0">
                     {tx.icon}
                   </div>
                   <div>
@@ -129,7 +140,7 @@ export function Dashboard() {
                     <p className="text-xs text-gray-500">{tx.type}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pl-14 sm:pl-0">
                   <span className={`text-xs px-2 py-1 rounded-md font-medium ${
                     tx.status === 'Completed' ? 'bg-[#20C997]/10 text-[#20C997]' :
                     tx.status === 'Pending' ? 'bg-[#F5B942]/10 text-[#F5B942]' :
@@ -146,6 +157,7 @@ export function Dashboard() {
           </div>
         </div>
 
+        {/* Spending Categories */}
         <div className="bg-[#151B23] p-5 rounded-2xl border border-gray-800/60 shadow-lg flex flex-col">
           <h3 className="font-bold text-white mb-4">Spending Categories</h3>
           <div className="flex-1 flex items-center justify-center relative mb-4">
