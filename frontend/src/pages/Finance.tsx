@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { api } from '../services/api';
 import { Wallet, Save, Loader2 } from 'lucide-react';
 
 export function Finance() {
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
     monthly_income: 100000,

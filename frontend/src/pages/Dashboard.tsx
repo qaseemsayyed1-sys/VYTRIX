@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, ShieldCheck, 
-  CreditCard, ArrowRight, ShieldAlert, Sparkles, Send, Plus
+  Wallet, TrendingUp, ShieldCheck, 
+  CreditCard, ArrowRight, ShieldAlert, Sparkles, Plus
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -26,8 +25,6 @@ const transactions = [
 export function Dashboard() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      
-      {/* Header */}
       <div className="flex justify-between items-center mb-2">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1 flex items-center gap-2">
@@ -40,14 +37,9 @@ export function Dashboard() {
         </Link>
       </div>
 
-      {/* Top Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Main Balance Chart Card */}
         <div className="lg:col-span-2 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-6 rounded-2xl border border-gray-800/60 shadow-xl relative overflow-hidden">
-          {/* Subtle background glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -z-10"></div>
-          
           <div className="flex justify-between items-start mb-6">
             <div>
               <p className="text-gray-400 text-sm font-medium mb-1">Total Balance</p>
@@ -84,9 +76,7 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Right Side Cards */}
         <div className="space-y-6">
-          {/* Virtual Card */}
           <div className="bg-gradient-to-br from-blue-600 to-indigo-900 p-6 rounded-2xl shadow-xl relative overflow-hidden group cursor-pointer">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all"></div>
             <div className="flex justify-between items-start mb-8">
@@ -103,7 +93,6 @@ export function Dashboard() {
             </div>
           </div>
 
-          {/* Quick AI Insights */}
           <div className="bg-[#121212] p-5 rounded-2xl border border-gray-800/60 shadow-lg">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles size={18} className="text-orange-500" />
@@ -122,10 +111,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Bottom Section: Transactions & Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Recent Transactions List */}
         <div className="lg:col-span-2 bg-[#121212] rounded-2xl border border-gray-800/60 shadow-lg overflow-hidden">
           <div className="p-5 border-b border-gray-800/60 flex justify-between items-center bg-[#151515]">
             <h3 className="font-bold text-white">Recent Transactions</h3>
@@ -160,11 +146,9 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Spending Categories */}
         <div className="bg-[#121212] p-5 rounded-2xl border border-gray-800/60 shadow-lg flex flex-col">
           <h3 className="font-bold text-white mb-4">Spending Categories</h3>
           <div className="flex-1 flex items-center justify-center relative mb-4">
-            {/* Simple CSS Donut Chart representation */}
             <div className="w-32 h-32 rounded-full border-[12px] border-[#1a1a1a] border-t-orange-500 border-r-blue-500 border-b-green-500 flex items-center justify-center flex-col">
               <span className="text-xl font-bold text-white">₹65k</span>
               <span className="text-[10px] text-gray-500 uppercase">Total</span>
@@ -191,7 +175,6 @@ export function Dashboard() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

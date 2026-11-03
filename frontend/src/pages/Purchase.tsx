@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { api } from '../services/api';
-import { ShieldCheck, ShieldAlert, FileText, Loader2, ExternalLink, ArrowRight, ArrowLeft, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Loader2, ExternalLink, ArrowRight, ArrowLeft, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 
 export function Purchase() {
   const [step, setStep] = useState(1);
@@ -85,7 +85,6 @@ export function Purchase() {
         <p className="text-gray-400">Structured workflow to protect your transaction.</p>
       </div>
 
-      {/* Progress Workflow */}
       <div className="flex items-center mb-8 bg-[#121212] p-2 rounded-xl border border-gray-800/60 w-fit">
         <div className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 ${step === 1 ? 'bg-orange-600 text-white' : 'text-gray-500'}`}>
           1. Product Details
@@ -101,8 +100,6 @@ export function Purchase() {
       </div>
 
       <div className="bg-[#121212] p-8 rounded-2xl border border-gray-800/60 shadow-lg">
-        
-        {/* Step 1: Product Details */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h3 className="text-xl font-bold mb-4">Enter Product Details</h3>
@@ -128,7 +125,6 @@ export function Purchase() {
           </div>
         )}
 
-        {/* Step 2: Checkout Integrity */}
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
             <h3 className="text-xl font-bold mb-4 text-orange-500">Verify Checkout Integrity</h3>
@@ -162,7 +158,6 @@ export function Purchase() {
           </div>
         )}
 
-        {/* Step 3: SENTINEL Assessment */}
         {step === 3 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             {loading ? (
@@ -185,7 +180,6 @@ export function Purchase() {
                   </div>
                 </div>
 
-                {/* Structured Evidence Cards */}
                 <div className="space-y-4 mb-8">
                   <div className="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 flex justify-between items-center">
                     <div>

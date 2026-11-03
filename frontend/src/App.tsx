@@ -17,7 +17,6 @@ function App() {
           <Route path="/seller" element={<Seller />} />
           <Route path="/purchase" element={<Purchase />} />
           
-          {/* SENTINEL Page */}
           <Route path="/sentinel" element={
             <div className="max-w-4xl mx-auto">
               <div className="mb-8">
@@ -39,7 +38,6 @@ function App() {
             </div>
           } />
 
-          {/* Purchase Passports Page */}
           <Route path="/passports" element={
             <div className="max-w-4xl mx-auto">
               <div className="mb-8">
@@ -75,7 +73,6 @@ function App() {
             </div>
           } />
           
-          {/* Transactions Page */}
           <Route path="/transactions" element={
             <div className="max-w-4xl mx-auto">
               <div className="mb-8">

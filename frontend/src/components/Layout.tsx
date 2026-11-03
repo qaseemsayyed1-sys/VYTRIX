@@ -50,7 +50,6 @@ export function Layout({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
-        
         <div className="p-4 border-t border-gray-800/60">
           <div className="bg-[#1a1a1a] p-4 rounded-xl border border-gray-800">
             <h4 className="text-sm font-bold text-white mb-1">Upgrade Pro</h4>
