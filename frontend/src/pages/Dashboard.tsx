@@ -27,9 +27,10 @@ export function Dashboard() {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (hour >= 5 && hour < 12) return 'Good morning';
+    if (hour >= 12 && hour < 17) return 'Good afternoon';
+    if (hour >= 17 && hour < 21) return 'Good evening';
+    return 'Good night';
   };
 
   return (
@@ -57,7 +58,8 @@ export function Dashboard() {
           className="lg:col-span-2 bg-[#24211D] p-4 md:p-6 rounded-2xl border border-[#3A362F] shadow-xl relative overflow-hidden cursor-pointer hover:border-[#9B87D8]/50 transition-colors"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#9B87D8]/5 rounded-full blur-3xl -z-10"></div>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2 gap-4">
             <div>
               <p className="text-[#A69F96] text-sm font-medium mb-1">Total Balance</p>
               <h3 className="text-3xl md:text-4xl font-bold text-[#F5F2EC]">₹85,000.00</h3>
@@ -65,14 +67,14 @@ export function Dashboard() {
                 <TrendingUp size={14} /> +12.5% from last month
               </p>
             </div>
-            <div className="flex gap-2 bg-[#1A1816] p-1 rounded-lg border border-[#3A362F]">
-              <button className="px-3 py-1 text-xs text-[#A69F96] hover:text-[#F5F2EC] rounded">1M</button>
-              <button className="px-3 py-1 text-xs text-[#A69F96] hover:text-[#F5F2EC] rounded">6M</button>
-              <button className="px-3 py-1 text-xs bg-[#3A362F] text-[#F5F2EC] rounded shadow">1Y</button>
+            <div className="flex gap-2 bg-[#1A1816] p-1 rounded-lg border border-[#3A362F] w-full md:w-auto justify-between md:justify-start mt-2 md:mt-0">
+              <button className="px-3 py-1 text-xs text-[#A69F96] hover:text-[#F5F2EC] rounded flex-1 md:flex-none">1M</button>
+              <button className="px-3 py-1 text-xs text-[#A69F96] hover:text-[#F5F2EC] rounded flex-1 md:flex-none">6M</button>
+              <button className="px-3 py-1 text-xs bg-[#3A362F] text-[#F5F2EC] rounded shadow flex-1 md:flex-none">1Y</button>
             </div>
           </div>
           
-          <div className="h-[200px] w-full">
+          <div className="h-[200px] w-full mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                 <defs>
