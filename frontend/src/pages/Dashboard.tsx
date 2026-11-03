@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  TrendingUp, ShieldCheck, CreditCard, ShieldAlert, Sparkles, Plus
+  TrendingUp, ShieldCheck, CreditCard, ShieldAlert, Sparkles, Plus, X
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -22,8 +23,10 @@ const transactions = [
 ];
 
 export function Dashboard() {
+  const [showBalanceModal, setShowBalanceModal] = useState(false);
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 pb-10">
+    <div className="max-w-7xl mx-auto space-y-6 pb-10 pt-16 lg:pt-0">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -41,8 +44,11 @@ export function Dashboard() {
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Chart Card */}
-        <div className="lg:col-span-2 bg-[#151B23] p-4 md:p-6 rounded-2xl border border-gray-800/60 shadow-xl relative overflow-hidden">
+        {/* Chart Card - Clickable */}
+        <div 
+          onClick={() => setShowBalanceModal(true)}
+          className="lg:col-span-2 bg-[#151B23] p-4 md:p-6 rounded-2xl border border-gray-800/60 shadow-xl relative overflow-hidden cursor-pointer hover:border-[#FF6B35]/30 transition-colors"
+        >
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF6B35]/5 rounded-full blur-3xl -z-10"></div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
@@ -101,7 +107,7 @@ export function Dashboard() {
           </div>
 
           {/* AI Alerts */}
-          <div className="bg-[#151B23] p-5 rounded-2xl border border-gray-800/60 shadow-lg cursor-pointer hover:border-[#FF6B35]/30 transition-colors">
+          <Link to="/alerts" className="block bg-[#151B23] p-5 rounded-2xl border border-gray-800/60 shadow-lg cursor-pointer hover:border-[#FF6B35]/30 transition-colors">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles size={18} className="text-[#FF6B35]" />
               <h3 className="font-bold text-white">SENTINEL Alerts</h3>
@@ -115,7 +121,7 @@ export function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -126,7 +132,7 @@ export function Dashboard() {
         <div className="lg:col-span-2 bg-[#151B23] rounded-2xl border border-gray-800/60 shadow-lg overflow-hidden">
           <div className="p-4 md:p-5 border-b border-gray-800/60 flex justify-between items-center bg-[#1a222c]">
             <h3 className="font-bold text-white">Recent Transactions</h3>
-            <button className="text-xs text-[#FF6B35] font-medium hover:text-[#e65a2a]">View All</button>
+            <Link to="/transactions" className="text-xs text-[#FF6B35] font-medium hover:text-[#e65a2a]">View All</Link>
           </div>
           <div className="p-2">
             {transactions.map((tx) => (
@@ -188,6 +194,33 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Balance Modal */}
+      {showBalanceModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#151B23] border border-gray-800 rounded-2xl p-6 w-full max-w-md relative shadow-2xl">
+            <button onClick={() => setShowBalanceModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white">
+              <X size={20} />
+            </button>
+            <h3 className="text-xl font-bold text-white mb-4">Income & Expense Breakdown</h3>
+            
+            <div className="space-y-4">
+              <div className="flex justify-between items-center p-3 bg-[#0B0F14] rounded-lg border border-gray-800">
+                <span className="text-gray-400">Total Income</span>
+                <span className="text-[#20C997] font-bold">+₹1,00,000</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-[#0B0F14] rounded-lg border border-gray-800">
+                <span className="text-gray-400">Total Expenses</span>
+                <span className="text-[#FF5B65] font-bold">-₹40,000</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-[#0B0F14] rounded-lg border border-[#FF6B35]/30 mt-2">
+                <span className="text-white font-bold">Net Savings</span>
+                <span className="text-[#FF6B35] font-bold text-lg">₹60,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
