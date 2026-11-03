@@ -1,6 +1,4 @@
 @import "tailwindcss";
-
-/* Custom Animations for VYTRIX */
 @keyframes fadeInUp {
   from {
     opacity: 0;
