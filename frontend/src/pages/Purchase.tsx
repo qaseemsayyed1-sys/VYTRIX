@@ -213,3 +213,26 @@ export function Purchase() {
                     <ShieldCheck className="text-[#2DD4BF] mx-auto mb-2" size={40} />
                     <h4 className="text-[#2DD4BF] font-bold text-lg">Payment Verified & Captured</h4>
                     <p className="text-sm text-[#2DD4BF]/70 mt-1">Passport ID: {result.id}</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <button onClick={() => setStep(1)} className="flex-1 bg-[#1E2233] border border-[#2A2F45] text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition-colors w-full">
+                      Cancel Analysis
+                    </button>
+                    <button 
+                      onClick={handlePayPalCheckout} 
+                      disabled={paypalLoading || !!paypalUrl}
+                      className="flex-[2] bg-white text-[#0F111A] font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors flex justify-center items-center gap-2 disabled:opacity-50 w-full"
+                    >
+                      {paypalLoading ? <><Loader2 className="animate-spin" size={20} /> Connecting...</> : paypalUrl ? <><ExternalLink size={20} /> Awaiting Approval...</> : 'Proceed to PayPal'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
