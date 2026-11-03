@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { api } from '../services/api';
-import { ShieldCheck, ShieldAlert, Loader2, ExternalLink, ArrowRight, ArrowLeft, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { ShieldCheck, Loader2, ExternalLink, ArrowRight, ArrowLeft, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 
 export function Purchase() {
   const [step, setStep] = useState(1);
@@ -79,149 +79,154 @@ export function Purchase() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2 text-white">Purchase Guardian</h2>
-        <p className="text-gray-400">Structured workflow to protect your transaction.</p>
+    <div className="max-w-5xl mx-auto pb-10">
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">Purchase Guardian</h2>
+        <p className="text-gray-400 text-sm md:text-base">Structured workflow to protect your transaction.</p>
       </div>
 
-      <div className="flex items-center mb-8 bg-[#121212] p-2 rounded-xl border border-gray-800/60 w-fit">
-        <div className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 ${step === 1 ? 'bg-orange-600 text-white' : 'text-gray-500'}`}>
+      {/* Progress Bar (Scrollable on mobile) */}
+      <div className="flex items-center mb-6 md:mb-8 bg-[#151B23] p-2 rounded-xl border border-gray-800/60 w-full overflow-x-auto whitespace-nowrap">
+        <div className={`px-4 md:px-6 py-2 rounded-lg font-medium flex items-center gap-2 text-sm ${step === 1 ? 'bg-[#FF6B35] text-white' : 'text-gray-500'}`}>
           1. Product Details
         </div>
-        <ArrowRight size={16} className="text-gray-600 mx-2" />
-        <div className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 ${step === 2 ? 'bg-orange-600 text-white' : 'text-gray-500'}`}>
-          2. Checkout Integrity
+        <ArrowRight size={16} className="text-gray-600 mx-2 shrink-0" />
+        <div className={`px-4 md:px-6 py-2 rounded-lg font-medium flex items-center gap-2 text-sm ${step === 2 ? 'bg-[#FF6B35] text-white' : 'text-gray-500'}`}>
+          2. Checkout
         </div>
-        <ArrowRight size={16} className="text-gray-600 mx-2" />
-        <div className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 ${step === 3 ? 'bg-orange-600 text-white' : 'text-gray-500'}`}>
-          3. SENTINEL Assessment
+        <ArrowRight size={16} className="text-gray-600 mx-2 shrink-0" />
+        <div className={`px-4 md:px-6 py-2 rounded-lg font-medium flex items-center gap-2 text-sm ${step === 3 ? 'bg-[#FF6B35] text-white' : 'text-gray-500'}`}>
+          3. SENTINEL
         </div>
       </div>
 
-      <div className="bg-[#121212] p-8 rounded-2xl border border-gray-800/60 shadow-lg">
+      <div className="bg-[#151B23] p-4 md:p-8 rounded-2xl border border-gray-800/60 shadow-lg">
+        
+        {/* Step 1 */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h3 className="text-xl font-bold mb-4">Enter Product Details</h3>
+            <h3 className="text-xl font-bold mb-4 text-white">Enter Product Details</h3>
             <div>
               <label className="block text-sm text-gray-400 mb-2">Product URL</label>
-              <input type="text" name="product_url" value={formData.product_url} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+              <input type="text" name="product_url" value={formData.product_url} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Listed Price (₹)</label>
-                <input type="number" name="listed_price" value={formData.listed_price} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+                <input type="number" name="listed_price" value={formData.listed_price} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Claimed Discount (₹)</label>
-                <input type="number" name="claimed_discount" value={formData.claimed_discount} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+                <input type="number" name="claimed_discount" value={formData.claimed_discount} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
               </div>
             </div>
-            <div className="flex justify-end mt-8">
-              <button onClick={() => setStep(2)} className="bg-white text-black font-bold py-3 px-8 rounded-lg flex items-center gap-2 hover:bg-gray-200">
+            <div className="flex justify-end mt-6 md:mt-8">
+              <button onClick={() => setStep(2)} className="bg-white text-black font-bold py-3 px-6 md:px-8 rounded-lg flex items-center gap-2 hover:bg-gray-200 w-full md:w-auto justify-center">
                 Next Step <ArrowRight size={18} />
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 2 */}
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
-            <h3 className="text-xl font-bold mb-4 text-orange-500">Verify Checkout Integrity</h3>
-            <div className="grid grid-cols-3 gap-6">
+            <h3 className="text-xl font-bold mb-4 text-[#FF6B35]">Verify Checkout Integrity</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Shipping (₹)</label>
-                <input type="number" name="shipping_charges" value={formData.shipping_charges} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+                <input type="number" name="shipping_charges" value={formData.shipping_charges} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Taxes (₹)</label>
-                <input type="number" name="taxes" value={formData.taxes} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+                <input type="number" name="taxes" value={formData.taxes} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Other Fees (₹)</label>
-                <input type="number" name="other_charges" value={formData.other_charges} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500" />
+                <input type="number" name="other_charges" value={formData.other_charges} onChange={handleChange} className="w-full bg-[#0B0F14] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35]" />
               </div>
             </div>
             <div className="pt-6 border-t border-gray-800 mt-6">
-              <label className="block text-sm text-orange-400 font-bold mb-2">Actual Checkout Amount (₹)</label>
-              <input type="number" name="checkout_amount" value={formData.checkout_amount} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-orange-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 text-lg" />
+              <label className="block text-sm text-[#FF6B35] font-bold mb-2">Actual Checkout Amount (₹)</label>
+              <input type="number" name="checkout_amount" value={formData.checkout_amount} onChange={handleChange} className="w-full bg-[#0B0F14] border border-[#FF6B35]/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6B35] text-lg" />
               <p className="text-xs text-gray-500 mt-2">Enter the exact amount shown on the final payment page.</p>
             </div>
-            <div className="flex justify-between mt-8">
-              <button onClick={() => setStep(1)} className="text-gray-400 font-medium py-3 px-6 rounded-lg flex items-center gap-2 hover:text-white transition-colors">
+            <div className="flex flex-col-reverse md:flex-row justify-between gap-4 mt-8">
+              <button onClick={() => setStep(1)} className="text-gray-400 font-medium py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:text-white transition-colors border border-gray-800 md:border-none">
                 <ArrowLeft size={18} /> Back
               </button>
-              <button onClick={handleAnalyze} disabled={loading} className="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg flex items-center gap-2 hover:bg-orange-700 shadow-lg shadow-orange-900/20">
+              <button onClick={handleAnalyze} disabled={loading} className="bg-[#FF6B35] text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center gap-2 hover:bg-[#e65a2a] shadow-lg shadow-[#FF6B35]/20 w-full md:w-auto">
                 {loading ? <Loader2 className="animate-spin" size={20} /> : 'Run SENTINEL Analysis'} <ShieldCheck size={18} />
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 3 */}
         {step === 3 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-                <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />
+                <Loader2 className="animate-spin text-[#FF6B35] mb-4" size={48} />
                 <p className="text-lg font-medium text-white mb-2">SENTINEL is analyzing...</p>
-                <p className="text-sm">Cross-referencing financial data, seller evidence, and checkout integrity.</p>
+                <p className="text-sm text-center px-4">Cross-referencing financial data, seller evidence, and checkout integrity.</p>
               </div>
             ) : result && (
               <div>
-                <div className="flex justify-between items-start mb-8">
+                <div className="flex flex-col md:flex-row justify-between items-start mb-6 md:mb-8 gap-4">
                   <div>
-                    <h3 className="text-2xl font-bold mb-1">SENTINEL Purchase Intelligence</h3>
+                    <h3 className="text-xl md:text-2xl font-bold mb-1 text-white">SENTINEL Intelligence</h3>
                     <p className="text-gray-400 text-sm">Assessment generated successfully.</p>
                   </div>
-                  <div className={`px-4 py-2 rounded-lg font-bold text-sm border ${
-                    result.unified_assessment.overall_recommendation === 'PROCEED_WITH_CAUTION' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'
+                  <div className={`px-4 py-2 rounded-lg font-bold text-sm border w-full md:w-auto text-center ${
+                    result.unified_assessment.overall_recommendation === 'PROCEED_WITH_CAUTION' ? 'bg-[#F5B942]/10 text-[#F5B942] border-[#F5B942]/20' : 'bg-[#FF5B65]/10 text-[#FF5B65] border-[#FF5B65]/20'
                   }`}>
                     {result.unified_assessment.overall_recommendation.replace(/_/g, ' ')}
                   </div>
                 </div>
 
-                <div className="space-y-4 mb-8">
-                  <div className="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 flex justify-between items-center">
+                <div className="space-y-4 mb-6 md:mb-8">
+                  <div className="bg-[#1a222c] p-4 md:p-5 rounded-xl border border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Financial Affordability</p>
                       <p className="text-sm text-gray-300">{result.unified_assessment.financial_assessment}</p>
                     </div>
-                    <div className={`p-2 rounded-full ${result.financial_snapshot.status === 'AFFORDABLE' ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
+                    <div className={`p-2 rounded-full shrink-0 ${result.financial_snapshot.status === 'AFFORDABLE' ? 'bg-[#20C997]/10 text-[#20C997]' : 'bg-[#F5B942]/10 text-[#F5B942]'}`}>
                        {result.financial_snapshot.status === 'AFFORDABLE' ? <CheckCircle2 size={24}/> : <AlertTriangle size={24}/>}
                     </div>
                   </div>
 
-                  <div className="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 flex justify-between items-center">
+                  <div className="bg-[#1a222c] p-4 md:p-5 rounded-xl border border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Checkout Integrity</p>
                       <p className="text-sm text-gray-300">{result.unified_assessment.purchase_assessment}</p>
                     </div>
-                    <div className={`p-2 rounded-full ${result.purchase_snapshot.isDiscrepancy ? 'bg-red-500/10 text-red-500' : 'bg-green-500/10 text-green-500'}`}>
+                    <div className={`p-2 rounded-full shrink-0 ${result.purchase_snapshot.isDiscrepancy ? 'bg-[#FF5B65]/10 text-[#FF5B65]' : 'bg-[#20C997]/10 text-[#20C997]'}`}>
                        {result.purchase_snapshot.isDiscrepancy ? <XCircle size={24}/> : <CheckCircle2 size={24}/>}
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 mb-8">
+                <div className="bg-[#1a222c] p-4 md:p-6 rounded-xl border border-gray-800 mb-6 md:mb-8">
                   <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-3">AI Explanation</p>
-                  <p className="text-gray-300 leading-relaxed">{result.unified_assessment.warnings[0] || "The purchase appears financially sound and the checkout matches."}</p>
+                  <p className="text-sm md:text-base text-gray-300 leading-relaxed">{result.unified_assessment.warnings[0] || "The purchase appears financially sound and the checkout matches."}</p>
                 </div>
 
                 {paymentSuccess ? (
-                  <div className="bg-green-950/30 border border-green-900/50 p-6 rounded-xl text-center">
-                    <ShieldCheck className="text-green-500 mx-auto mb-2" size={40} />
-                    <h4 className="text-green-400 font-bold text-lg">Payment Verified & Captured</h4>
-                    <p className="text-sm text-green-600 mt-1">Purchase Passport ID: {result.id}</p>
+                  <div className="bg-[#20C997]/10 border border-[#20C997]/20 p-6 rounded-xl text-center">
+                    <ShieldCheck className="text-[#20C997] mx-auto mb-2" size={40} />
+                    <h4 className="text-[#20C997] font-bold text-lg">Payment Verified & Captured</h4>
+                    <p className="text-sm text-[#20C997]/70 mt-1">Passport ID: {result.id}</p>
                   </div>
                 ) : (
-                  <div className="flex gap-4">
-                    <button onClick={() => setStep(1)} className="flex-1 bg-[#1a1a1a] border border-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <button onClick={() => setStep(1)} className="flex-1 bg-[#1a222c] border border-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition-colors w-full">
                       Cancel Analysis
                     </button>
                     <button 
                       onClick={handlePayPalCheckout} 
                       disabled={paypalLoading || !!paypalUrl}
-                      className="flex-[2] bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors flex justify-center items-center gap-2 disabled:opacity-50"
+                      className="flex-[2] bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors flex justify-center items-center gap-2 disabled:opacity-50 w-full"
                     >
                       {paypalLoading ? <><Loader2 className="animate-spin" size={20} /> Connecting...</> : paypalUrl ? <><ExternalLink size={20} /> Awaiting Approval...</> : 'Proceed to PayPal'}
                     </button>
