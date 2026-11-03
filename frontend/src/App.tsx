@@ -6,7 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Finance } from './pages/Finance';
 import { Seller } from './pages/Seller';
 import { Purchase } from './pages/Purchase';
-import { FileText, ArrowRightLeft, Bot, Bell, TrendingUp, Settings as SettingsIcon, ShieldCheck } from 'lucide-react';
+import { FileText, ArrowRightLeft, Bot, Bell, TrendingUp, Settings as SettingsIcon, ShieldCheck, Sparkles } from 'lucide-react';
 
 function App() {
   return (
@@ -74,8 +74,32 @@ function App() {
                 </h2>
                 <p className="text-gray-400 text-sm md:text-base">Monthly spending trends and AI observations.</p>
               </div>
-              <div className="bg-[#151B23] p-6 rounded-2xl border border-gray-800/60 h-64 flex items-center justify-center text-gray-500">
-                Charts and graphs will go here
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-[#151B23] p-6 rounded-2xl border border-gray-800/60">
+                  <h3 className="text-white font-bold mb-4">Monthly Spending Trend</h3>
+                  <div className="h-40 flex items-end gap-2 justify-between">
+                    {[40, 60, 30, 80, 50, 90, 70].map((h, i) => (
+                      <div key={i} className="w-full bg-[#0B0F14] rounded-t-md relative group">
+                        <div className="absolute bottom-0 w-full bg-[#FF6B35]/50 rounded-t-md group-hover:bg-[#FF6B35] transition-all" style={{ height: `${h}%` }}></div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-500 mt-2">
+                    <span>Jan</span><span>Jul</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#151B23] p-6 rounded-2xl border border-gray-800/60">
+                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <Sparkles className="text-[#FF6B35]" size={18} /> AI Observations
+                  </h3>
+                  <ul className="space-y-3 text-sm text-gray-300">
+                    <li className="flex gap-2"><span className="text-[#FF6B35]">•</span> Your spending on shopping increased by 15% this month.</li>
+                    <li className="flex gap-2"><span className="text-[#FF6B35]">•</span> You are saving 20% more compared to last month.</li>
+                    <li className="flex gap-2"><span className="text-[#FF6B35]">•</span> Consider setting a budget for subscriptions to save ₹500/month.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           } />
