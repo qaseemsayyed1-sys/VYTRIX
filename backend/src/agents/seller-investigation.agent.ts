@@ -1,5 +1,3 @@
-import { EvidenceItemSchema } from '../../../shared/dist/schemas';
-
 export class SellerInvestigationAgent {
   static async investigate(url: string) {
     let domain = '';

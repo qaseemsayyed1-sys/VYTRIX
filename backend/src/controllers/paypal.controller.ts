@@ -9,7 +9,7 @@ export class PayPalController {
 
     try {
       const order = await PayPalService.createOrder(amount, currency);
-
+      
       await supabase.from('paypal_orders').insert({
         passport_id,
         paypal_order_id: order.id,
