@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  TrendingUp, CreditCard, ShieldAlert, Sparkles, Plus, X
+  TrendingUp, CreditCard, ShieldAlert, Sparkles, Plus, X,
+  ShieldCheck, ShoppingBag, Wallet, Target
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -35,6 +36,7 @@ export function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-10 pt-16 lg:pt-0">
+      
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 animate-fade-in-up">
         <div>
           <h2 className="text-2xl font-bold text-[#F3EFE6] mb-1 flex items-center gap-2">
@@ -47,10 +49,49 @@ export function Dashboard() {
         </Link>
       </div>
 
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in-up delay-100">
+        <Link to="/purchase" className="bg-[#26211E] p-4 rounded-xl border border-[#3B332F] hover:border-[#C4A484] transition-all group flex items-center gap-3">
+          <div className="bg-[#C4A484]/20 p-2 rounded-lg text-[#C4A484] group-hover:scale-110 transition-transform">
+            <ShoppingBag size={20} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#F3EFE6]">New Purchase</p>
+            <p className="text-[10px] text-[#A69F96]">Analyze a checkout</p>
+          </div>
+        </Link>
+        <Link to="/seller" className="bg-[#26211E] p-4 rounded-xl border border-[#3B332F] hover:border-[#C4A484] transition-all group flex items-center gap-3">
+          <div className="bg-[#8FBC8F]/20 p-2 rounded-lg text-[#8FBC8F] group-hover:scale-110 transition-transform">
+            <ShieldCheck size={20} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#F3EFE6]">Scan Seller</p>
+            <p className="text-[10px] text-[#A69F96]">Verify a domain</p>
+          </div>
+        </Link>
+        <Link to="/finance" className="bg-[#26211E] p-4 rounded-xl border border-[#3B332F] hover:border-[#C4A484] transition-all group flex items-center gap-3">
+          <div className="bg-[#9B87D8]/20 p-2 rounded-lg text-[#9B87D8] group-hover:scale-110 transition-transform">
+            <Wallet size={20} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#F3EFE6]">My Money</p>
+            <p className="text-[10px] text-[#A69F96]">Update finances</p>
+          </div>
+        </Link>
+        <Link to="/passports" className="bg-[#26211E] p-4 rounded-xl border border-[#3B332F] hover:border-[#C4A484] transition-all group flex items-center gap-3">
+          <div className="bg-[#D4B494]/20 p-2 rounded-lg text-[#D4B494] group-hover:scale-110 transition-transform">
+            <Target size={20} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#F3EFE6]">Passports</p>
+            <p className="text-[10px] text-[#A69F96]">View audit trail</p>
+          </div>
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div 
           onClick={() => setShowBalanceModal(true)}
-          className="lg:col-span-2 bg-[#26211E] p-4 md:p-6 rounded-2xl border border-[#3B332F] shadow-xl relative overflow-hidden cursor-pointer hover:border-[#C4A484]/50 transition-colors animate-fade-in-up delay-100"
+          className="lg:col-span-2 bg-[#26211E] p-4 md:p-6 rounded-2xl border border-[#3B332F] shadow-xl relative overflow-hidden cursor-pointer hover:border-[#C4A484]/50 transition-colors animate-fade-in-up delay-200"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#C4A484]/5 rounded-full blur-3xl -z-10"></div>
           
@@ -90,7 +131,7 @@ export function Dashboard() {
           </div>
         </div>
 
-        <div className="space-y-6 animate-fade-in-up delay-200">
+        <div className="space-y-6 animate-fade-in-up delay-300">
           <div className="bg-gradient-to-br from-[#3B332F] to-[#1C1816] border border-[#3B332F] p-6 rounded-2xl shadow-xl relative overflow-hidden group cursor-pointer hover:border-[#C4A484]/50 transition-colors">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#C4A484]/10 rounded-full blur-2xl group-hover:bg-[#C4A484]/20 transition-all"></div>
             <div className="flex justify-between items-start mb-6 md:mb-8">
@@ -161,31 +202,37 @@ export function Dashboard() {
         </div>
 
         <div className="bg-[#26211E] p-5 rounded-2xl border border-[#3B332F] shadow-lg flex flex-col">
-          <h3 className="font-bold text-[#F3EFE6] mb-4">Spending Categories</h3>
-          <div className="flex-1 flex items-center justify-center relative mb-4">
-            <div className="w-32 h-32 rounded-full border-[12px] border-[#1C1816] border-t-[#8FBC8F] border-r-[#C4A484] border-b-[#D4B494] flex items-center justify-center flex-col shadow-[0_0_15px_rgba(196,164,132,0.15)]">
-              <span className="text-xl font-bold text-[#F3EFE6]">₹65k</span>
-              <span className="text-[10px] text-[#A69F96] uppercase">Total</span>
-            </div>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center text-sm">
-              <div className="flex items-center gap-2 text-[#A69F96]">
-                <div className="w-2 h-2 rounded-full bg-[#8FBC8F]"></div> Shopping
+          <h3 className="font-bold text-[#F3EFE6] mb-4">Monthly Budget</h3>
+          
+          <div className="space-y-5 flex-1 flex flex-col justify-center">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-[#A69F96]">Shopping</span>
+                <span className="text-[#F3EFE6] font-bold">₹25,000 / ₹30,000</span>
               </div>
-              <span className="font-bold text-[#F3EFE6]">45%</span>
-            </div>
-            <div className="flex justify-between items-center text-sm">
-              <div className="flex items-center gap-2 text-[#A69F96]">
-                <div className="w-2 h-2 rounded-full bg-[#C4A484]"></div> Bills
+              <div className="h-2 w-full bg-[#1C1816] rounded-full overflow-hidden">
+                <div className="h-full bg-[#C4A484] rounded-full" style={{ width: '83%' }}></div>
               </div>
-              <span className="font-bold text-[#F3EFE6]">30%</span>
             </div>
-            <div className="flex justify-between items-center text-sm">
-              <div className="flex items-center gap-2 text-[#A69F96]">
-                <div className="w-2 h-2 rounded-full bg-[#D4B494]"></div> Food
+
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-[#A69F96]">Bills</span>
+                <span className="text-[#F3EFE6] font-bold">₹15,000 / ₹20,000</span>
               </div>
-              <span className="font-bold text-[#F3EFE6]">25%</span>
+              <div className="h-2 w-full bg-[#1C1816] rounded-full overflow-hidden">
+                <div className="h-full bg-[#8FBC8F] rounded-full" style={{ width: '75%' }}></div>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-[#A69F96]">Food & Dining</span>
+                <span className="text-[#CD5C5C] font-bold">₹9,500 / ₹10,000</span>
+              </div>
+              <div className="h-2 w-full bg-[#1C1816] rounded-full overflow-hidden">
+                <div className="h-full bg-[#CD5C5C] rounded-full" style={{ width: '95%' }}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -218,4 +265,4 @@ export function Dashboard() {
       )}
     </div>
   );
-}
+                  }
