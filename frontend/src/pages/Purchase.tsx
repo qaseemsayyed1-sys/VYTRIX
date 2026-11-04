@@ -68,14 +68,30 @@ export function Purchase() {
       
       if (approveLink) {
         setPaypalUrl(approveLink.href);
-        setTimeout(async () => {
-          try {
-            await api.post(`/paypal/capture-order/${response.data.id}`);
-            setPaymentSuccess(true);
-          } catch (err) {
-            setPaymentSuccess(true); 
+        
+        const paypalWindow = window.open(approveLink.href, '_blank');
+        
+        const checkWindow = setInterval(async () => {
+          if (paypalWindow?.closed) {
+            clearInterval(checkWindow);
+            
+            try {
+              const captureResponse = await api.post(`/paypal/capture-order/${response.data.id}`);
+              
+              if (captureResponse.data.success) {
+                setPaymentSuccess(true);
+              } else {
+                alert('Payment was not approved. Please try again.');
+              }
+            } catch (err) {
+              console.log('Capture check failed, assuming cancelled.');
+              alert('Payment was cancelled or not completed.');
+            }
           }
-        }, 3000);
+        }, 2000);
+
+      } else {
+        alert('Could not generate PayPal approval link.');
       }
     } catch (error: any) {
       alert('PayPal Error: ' + (error.response?.data?.error || error.message));
