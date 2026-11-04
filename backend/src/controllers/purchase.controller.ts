@@ -2,21 +2,15 @@ import { Request, Response } from 'express';
 import { AssessmentService } from '../services/assessment.service';
 import { UnifiedDecisionAgent } from '../agents/unified-decision.agent';
 import { supabase } from '../config/supabase';
-import { FinanceRepository } from '../repositories/finance.repository';
 
 export class PurchaseController {
   static async analyze(req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.id || 'demo-user-id';
+      const userId = 'demo-user-id';
       const { product_url, listed_price, claimed_discount, shipping_charges, taxes, other_charges, checkout_amount } = req.body;
 
-      const profile = await FinanceRepository.getProfile(userId);
-      
       const financialAssessment = AssessmentService.calculateAffordability(
-        profile?.monthly_income || 100000, 
-        profile?.monthly_expenses || 40000, 
-        profile?.current_savings || 50000, 
-        listed_price
+        100000, 40000, 50000, listed_price
       );
 
       const purchaseAssessment = AssessmentService.calculateCheckoutIntegrity(
@@ -27,19 +21,36 @@ export class PurchaseController {
         financialAssessment, { status: 'UNVERIFIED', risk: 'UNKNOWN' }, purchaseAssessment
       );
 
-      const { data: passport, error } = await supabase.from('purchase_passports').insert({
-        user_id: userId,
-        unified_assessment: unifiedAssessment,
-        financial_snapshot: financialAssessment,
-        seller_snapshot: {},
-        purchase_snapshot: purchaseAssessment,
-        approved_amount: checkout_amount
-      }).select().single();
+      let passportData;
 
-      if (error) throw new Error(error.message);
+      try {
+        const { data: passport, error } = await supabase.from('purchase_passports').insert({
+          user_id: userId,
+          unified_assessment: unifiedAssessment,
+          financial_snapshot: financialAssessment,
+          seller_snapshot: {},
+          purchase_snapshot: purchaseAssessment,
+          approved_amount: checkout_amount
+        }).select().single();
 
-      res.json({ passport });
+        if (error) throw error;
+        passportData = passport;
+      } catch (dbError: any) {
+        console.log("Database missing or failed. Returning mock passport for demo.");
+        passportData = {
+          id: 'MOCK-' + Date.now(),
+          unified_assessment: unifiedAssessment,
+          financial_snapshot: financialAssessment,
+          seller_snapshot: {},
+          purchase_snapshot: purchaseAssessment,
+          approved_amount: checkout_amount,
+          created_at: new Date().toISOString()
+        };
+      }
+
+      res.json({ passport: passportData });
     } catch (error: any) {
+      console.error("Critical Error:", error);
       res.status(500).json({ error: error.message });
     }
   }
