@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { api } from './services/api';
 import { Layout } from './components/Layout';
 import { Dashboard } from './pages/Dashboard';
@@ -110,10 +113,49 @@ function App() {
               <h2 className="text-2xl md:text-3xl font-bold mb-2 flex items-center gap-3 text-[#1A202C]">
                 <SettingsIcon className="text-[#6B46C1]" /> Settings
               </h2>
-              <p className="text-gray-500 text-sm md:text-base">Profile, currency preferences, and security.</p>
+              <p className="text-gray-500 text-sm md:text-base">Manage your profile, currency preferences, and security.</p>
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-64 flex items-center justify-center text-gray-400">
-              User settings will go here
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 className="text-[#1A202C] font-bold mb-4">Profile Information</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-1">Full Name</label>
+                    <input type="text" defaultValue="Rahul Sharma" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-[#1A202C] focus:outline-none focus:border-[#6B46C1]" />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-1">Email Address</label>
+                    <input type="email" defaultValue="rahul@example.com" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-[#1A202C] focus:outline-none focus:border-[#6B46C1]" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 className="text-[#1A202C] font-bold mb-4">Preferences</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-1">Default Currency</label>
+                    <select className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-[#1A202C] focus:outline-none focus:border-[#6B46C1]">
+                      <option>INR (₹)</option>
+                      <option>USD ($)</option>
+                      <option>EUR (€)</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-sm text-gray-700 font-medium">Email Notifications</span>
+                    <div className="w-10 h-5 bg-[#6B46C1] rounded-full relative cursor-pointer">
+                      <div className="w-4 h-4 bg-white rounded-full absolute right-1 top-0.5"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-6 flex justify-end">
+              <button className="bg-[#6B46C1] hover:bg-[#5a3a9e] text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg">
+                Save Changes
+              </button>
             </div>
           </div>
         } />
@@ -128,25 +170,29 @@ function SentinelChat() {
   ]);
   const [input, setInput] = useState('');
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    const newMessages = [...messages, { text: input, isBot: false }];
+  const handleSend = (text: string) => {
+    if (!text.trim()) return;
+    const newMessages = [...messages, { text, isBot: false }];
     setMessages(newMessages);
     setInput('');
 
     setTimeout(() => {
       let botReply = "Based on your current profile, you can afford this purchase, but keep an eye on hidden checkout fees.";
-      if (input.toLowerCase().includes('laptop') || input.toLowerCase().includes('afford')) {
+      if (text.toLowerCase().includes('laptop') || text.toLowerCase().includes('afford')) {
         botReply = "Your disposable income is ₹60,000. The laptop costs ₹65,000. Buying it will drop your savings to -₹15,000. I recommend proceeding with caution.";
-      } else if (input.toLowerCase().includes('seller') || input.toLowerCase().includes('risk')) {
+      } else if (text.toLowerCase().includes('seller') || text.toLowerCase().includes('risk')) {
         botReply = "The seller's domain is secure (HTTPS verified), but their contact information is missing. This is a medium risk indicator.";
       }
-      
       setMessages(prev => [...prev, { text: botReply, isBot: true }]);
     }, 1000);
   };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSend(input);
+  };
+
+  const suggestions = ["Can I afford a ₹65,000 laptop?", "Why is this seller risky?", "Show my checkout discrepancies"];
 
   return (
     <div className="max-w-4xl mx-auto h-[80vh] flex flex-col pt-16 lg:pt-0 pb-10 animate-fade-in-up">
@@ -160,15 +206,23 @@ function SentinelChat() {
       <div className="bg-white flex-1 rounded-2xl border border-gray-100 shadow-sm p-4 md:p-6 flex flex-col justify-end overflow-hidden">
         <div className="space-y-4 mb-4 overflow-y-auto pr-2">
           {messages.map((msg, idx) => (
-            <div key={idx} className={`p-3 md:p-4 rounded-xl max-w-[85%] text-sm md:text-base animate-fade-in-up ${
-              msg.isBot ? 'bg-gray-50 text-[#1A202C] border border-gray-100' : 'bg-[#6B46C1]/10 border border-[#6B46C1]/30 text-[#1A202C] ml-auto shadow-sm'
-            }`}>
+            <div key={idx} className={`p-3 md:p-4 rounded-xl max-w-[85%] text-sm md:text-base animate-fade-in-up ${msg.isBot ? 'bg-gray-50 text-[#1A202C] border border-gray-100' : 'bg-[#6B46C1]/10 border border-[#6B46C1]/30 text-[#1A202C] ml-auto shadow-sm'}`}>
               {msg.text}
             </div>
           ))}
         </div>
         
-        <form onSubmit={handleSend} className="flex gap-2 relative">
+        {messages.length === 1 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {suggestions.map((s, i) => (
+              <button key={i} onClick={() => handleSend(s)} className="bg-[#EBE5FA] text-[#6B46C1] text-xs md:text-sm px-3 py-2 rounded-lg font-medium hover:bg-[#6B46C1] hover:text-white transition-colors">
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <form onSubmit={handleFormSubmit} className="flex gap-2 relative">
           <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask SENTINEL anything..." className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-[#1A202C] focus:outline-none focus:border-[#6B46C1] text-sm md:text-base transition-colors" />
           <button type="submit" className="bg-[#6B46C1] px-4 md:px-6 rounded-lg font-bold text-white hover:bg-[#5a3a9e] shrink-0 transition-all shadow-lg shadow-[#6B46C1]/20">Send</button>
         </form>
@@ -196,15 +250,34 @@ function PassportsPage() {
     fetchPassports();
   }, []);
 
-  const getTimelineColor = (status: string) => {
-    if (status === 'success') return 'bg-green-500';
-    if (status === 'warning') return 'bg-yellow-500';
-    if (status === 'danger') return 'bg-red-500';
-    return 'bg-gray-300';
-  };
+  const columnDefs = [
+    { field: 'id', headerName: 'Passport ID', flex: 1, valueFormatter: (p: any) => p.value.slice(0, 8) + '...' },
+    { field: 'approved_amount', headerName: 'Amount', flex: 1, valueFormatter: (p: any) => `₹${p.value || 0}` },
+    { 
+      field: 'unified_assessment.overall_recommendation', 
+      headerName: 'Risk Assessment', 
+      flex: 1,
+      cellRenderer: (p: any) => (
+        <span className={`px-2 py-1 rounded-md text-xs font-bold ${p.value === 'HIGH_RISK' ? 'bg-red-100 text-red-600' : p.value === 'PROCEED_WITH_CAUTION' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'}`}>
+          {p.value?.replace(/_/g, ' ') || 'Analyzed'}
+        </span>
+      )
+    },
+    {
+      headerName: 'Action',
+      flex: 1,
+      cellRenderer: (p: any) => (
+        <button onClick={() => setSelectedPassport(p.data)} className="text-[#6B46C1] font-medium text-sm hover:underline">
+          View Details
+        </button>
+      )
+    }
+  ];
+
+  const defaultColDef = { sortable: true, filter: true, resizable: true };
 
   return (
-    <div className="max-w-4xl mx-auto pt-16 lg:pt-0 pb-10 animate-fade-in-up">
+    <div className="max-w-5xl mx-auto pt-16 lg:pt-0 pb-10 animate-fade-in-up">
       <div className="mb-6 md:mb-8">
         <h2 className="text-2xl md:text-3xl font-bold mb-2 flex items-center gap-3 text-[#1A202C]">
           <FileText className="text-[#6B46C1]" /> Purchase Passports
@@ -212,44 +285,28 @@ function PassportsPage() {
         <p className="text-gray-500 text-sm md:text-base">Your immutable, versioned purchase audit trail.</p>
       </div>
       
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
-        <table className="w-full text-left min-w-[500px]">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr className="text-gray-500 text-sm">
-              <th className="p-4 font-medium">Passport ID</th>
-              <th className="p-4 font-medium">Product</th>
-              <th className="p-4 font-medium">Amount</th>
-              <th className="p-4 font-medium">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {loading ? (
-              <tr>
-                <td colSpan={4} className="p-8 text-center text-gray-500">
-                  <Loader2 className="animate-spin mx-auto mb-2 text-[#6B46C1]" size={24} />
-                  Loading your secure passports...
-                </td>
-              </tr>
-            ) : passports.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="p-8 text-center text-gray-500">
-                  No passports generated yet. Run a purchase analysis!
-                </td>
-              </tr>
-            ) : (
-              passports.map((p: any) => (
-                <tr key={p.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setSelectedPassport(p)}>
-                  <td className="p-4 font-mono text-sm text-[#1A202C]">{p.id.slice(0, 8)}...</td>
-                  <td className="p-4 text-[#1A202C] font-medium">{p.unified_assessment?.overall_recommendation || 'Analyzed'}</td>
-                  <td className="p-4 text-gray-500">₹{p.approved_amount || '0'}</td>
-                  <td className="p-4">
-                    <button className="text-[#6B46C1] text-sm font-medium hover:underline">View Details</button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-gray-500 flex flex-col items-center">
+            <Loader2 className="animate-spin mb-2 text-[#6B46C1]" size={24} />
+            Loading your secure passports...
+          </div>
+        ) : passports.length === 0 ? (
+          <div className="p-8 text-center text-gray-500">
+            No passports generated yet. Run a purchase analysis!
+          </div>
+        ) : (
+          <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
+            <AgGridReact
+              rowData={passports}
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
+              pagination={true}
+              paginationPageSize={5}
+              domLayout='autoHeight'
+            />
+          </div>
+        )}
       </div>
 
       {selectedPassport && (
@@ -294,21 +351,27 @@ function PassportsPage() {
                   { step: 'Financial Engine', desc: 'Income and savings verified.', status: 'warning', time: new Date(selectedPassport.created_at).toLocaleTimeString() },
                   { step: 'Checkout Analysis', desc: `Approved quote: ₹${selectedPassport.approved_amount}`, status: 'success', time: new Date(selectedPassport.created_at).toLocaleTimeString() },
                   { step: 'Unified AI Engine', desc: 'Generated assessment successfully.', status: 'success', time: new Date(selectedPassport.created_at).toLocaleTimeString() }
-                ].map((item: any, idx: number) => (
-                  <div key={idx} className="flex gap-4">
-                    <div className="flex flex-col items-center">
-                      <div className={`w-3 h-3 rounded-full mt-1 shrink-0 ${getTimelineColor(item.status)}`}></div>
-                      {idx !== 2 && (
-                        <div className="w-0.5 h-full bg-gray-200 my-1"></div>
-                      )}
+                ].map((item: any, idx: number) => {
+                  const getTimelineColor = (status: string) => {
+                    if (status === 'success') return 'bg-green-500';
+                    if (status === 'warning') return 'bg-yellow-500';
+                    if (status === 'danger') return 'bg-red-500';
+                    return 'bg-gray-300';
+                  };
+                  return (
+                    <div key={idx} className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className={`w-3 h-3 rounded-full mt-1 shrink-0 ${getTimelineColor(item.status)}`}></div>
+                        {idx !== 2 && <div className="w-0.5 h-full bg-gray-200 my-1"></div>}
+                      </div>
+                      <div className="pb-4">
+                        <p className="text-sm font-medium text-[#1A202C]">{item.step}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                        <p className="text-[10px] text-gray-400 mt-1 font-mono">{item.time}</p>
+                      </div>
                     </div>
-                    <div className="pb-4">
-                      <p className="text-sm font-medium text-[#1A202C]">{item.step}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
-                      <p className="text-[10px] text-gray-400 mt-1 font-mono">{item.time}</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
