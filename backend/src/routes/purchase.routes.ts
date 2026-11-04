@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { PurchaseController } from '../controllers/purchase.controller';
 import { requireAuth } from '../middleware/auth.middleware';
 import { asyncHandler } from '../utils/async-handler';
@@ -10,7 +10,7 @@ router.use(requireAuth);
 
 router.post('/analyze', asyncHandler(PurchaseController.analyze));
 
-router.get('/history', asyncHandler(async (req, res) => {
+router.get('/history', asyncHandler(async (req: Request, res: Response) => {
     const userId = (req as any).user?.id;
     const { data, error } = await supabase.from('purchase_passports').select('*').eq('user_id', userId).order('created_at', { ascending: false });
     if(error) return res.status(500).json({error: error.message});
