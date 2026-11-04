@@ -27,7 +27,12 @@ export function Purchase() {
       setResult(response.data.passport);
       setSimulatedPrice(formData.listed_price);
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Analysis failed.');
+      console.error(error);
+      if (error.code === 'ECONNABORTED' || error.message === 'Network Error' || error.message === 'fetch failed') {
+        alert('Backend is waking up (Free Tier). Please wait 30 seconds and click Generate again.');
+      } else {
+        alert(error.response?.data?.error || 'Analysis failed.');
+      }
       setStep(2);
     } finally { setLoading(false); }
   };
@@ -73,7 +78,7 @@ export function Purchase() {
 
       <div className="bg-white p-4 md:p-8 rounded-2xl border border-gray-100 shadow-sm animate-fade-in-up delay-200">
         {step === 1 && (
-          <div className="space-y-6">
+          <div className="space-y-6 animate-slide-in-right duration-500">
             <h3 className="text-xl font-bold mb-4 text-[#1A202C]">Enter Product Details</h3>
             <div>
               <label className="block text-sm text-gray-500 mb-2">Product URL</label>
@@ -90,7 +95,7 @@ export function Purchase() {
         )}
 
         {step === 2 && (
-          <div className="space-y-6">
+          <div className="space-y-6 animate-slide-in-right duration-500">
             <h3 className="text-xl font-bold mb-4 text-[#6B46C1]">Verify Checkout Integrity</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div><label className="block text-sm text-gray-500 mb-2">Shipping (₹)</label><input type="number" name="shipping_charges" value={formData.shipping_charges} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-[#1A202C] focus:outline-none focus:border-[#6B46C1]" /></div>
@@ -109,11 +114,12 @@ export function Purchase() {
         )}
 
         {step === 3 && (
-          <div>
+          <div className="animate-fade-in-up duration-500">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 text-gray-400">
                 <Loader2 className="animate-spin text-[#6B46C1] mb-4" size={48} />
                 <p className="text-lg font-medium text-[#1A202C] mb-2">SENTINEL is analyzing...</p>
+                <p className="text-sm text-center px-4">If this takes too long, the backend might be waking up.</p>
               </div>
             ) : result && (
               <div>

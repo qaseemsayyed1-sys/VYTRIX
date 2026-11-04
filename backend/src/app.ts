@@ -11,11 +11,25 @@ import { errorHandler } from './middleware/error.middleware';
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://vytrix-brown.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'VYTRIX AEGIS SENTINEL Backend',
+    version: '1.0.0'
+  });
+});
 
 app.use('/api/finance', financeRoutes);
 app.use('/api/purchase', purchaseRoutes);
