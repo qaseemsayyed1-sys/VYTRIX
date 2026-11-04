@@ -41,7 +41,11 @@ export function Purchase() {
     if (!result) return;
     setPaypalLoading(true);
     try {
-      const response = await api.post('/paypal/create-order', { passport_id: result.id, amount: formData.checkout_amount, currency: 'INR' });
+      const response = await api.post('/paypal/create-order', { 
+        passport_id: result.id, 
+        amount: formData.checkout_amount, 
+        currency: 'USD' 
+      });
       const approveLink = response.data.links.find((link: any) => link.rel === 'approve');
       if (approveLink) {
         setPaypalUrl(approveLink.href);

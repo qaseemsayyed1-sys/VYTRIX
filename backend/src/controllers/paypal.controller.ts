@@ -23,14 +23,16 @@ export class PayPalController {
         });
       }
 
-      const order = await PayPalService.createOrder(amount, currency);
+      const usdAmount = Number((amount / 83).toFixed(2));
+
+      const order = await PayPalService.createOrder(usdAmount, 'USD');
       
       await supabase.from('paypal_orders').insert({
         passport_id,
         paypal_order_id: order.id,
         status: order.status,
         amount,
-        currency
+        currency: 'USD'
       });
 
       res.json(order);
