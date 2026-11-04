@@ -35,7 +35,8 @@ export class PayPalController {
 
       res.json(order);
     } catch (error: any) {
-      res.status(500).json({ error: 'Failed to create PayPal order.' });
+      console.error("PayPal API Error:", error.message);
+      res.status(500).json({ error: `PayPal Integration Error: ${error.message}` });
     }
   }
 
@@ -52,6 +53,7 @@ export class PayPalController {
         return res.status(400).json({ error: 'Payment capture failed or is pending.' });
       }
     } catch (error: any) {
+      console.error("PayPal Capture Error:", error.message);
       res.status(500).json({ error: 'Failed to capture payment.' });
     }
   }
