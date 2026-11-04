@@ -4,10 +4,25 @@ import { supabase } from '../config/supabase';
 
 export class PayPalController {
   static async createOrder(req: Request, res: Response) {
-    const userId = (req as any).user?.id || 'demo-user-id';
     const { passport_id, amount, currency } = req.body;
 
     try {
+      const { data: passport, error } = await supabase
+        .from('purchase_passports')
+        .select('approved_amount')
+        .eq('id', passport_id)
+        .single();
+
+      if (error || !passport) {
+        return res.status(404).json({ error: 'Purchase Passport not found.' });
+      }
+
+      if (Number(passport.approved_amount) !== Number(amount)) {
+        return res.status(400).json({ 
+          error: `Integrity Violation: Requested amount (₹${amount}) does not match approved quote (₹${passport.approved_amount}). Transaction Rejected.` 
+        });
+      }
+
       const order = await PayPalService.createOrder(amount, currency);
       
       await supabase.from('paypal_orders').insert({
@@ -19,19 +34,8 @@ export class PayPalController {
       });
 
       res.json(order);
-    } catch (error) {
-      console.log('PayPal API failed, using mock fallback for demo');
-      res.json({
-        id: 'MOCK-ORDER-' + Date.now(),
-        status: 'CREATED',
-        links: [
-          {
-            href: 'https://www.sandbox.paypal.com/checkoutnow?token=MOCK',
-            rel: 'approve',
-            method: 'GET'
-          }
-        ]
-      });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Failed to create PayPal order.' });
     }
   }
 
@@ -40,10 +44,15 @@ export class PayPalController {
     
     try {
       const captureData = await PayPalService.captureOrder(orderId);
-      await supabase.from('paypal_orders').update({ status: 'COMPLETED' }).eq('paypal_order_id', orderId);
-      res.json(captureData);
-    } catch (error) {
-      res.json({ status: 'COMPLETED', id: orderId, mock: true });
+      
+      if (captureData.status === 'COMPLETED') {
+        await supabase.from('paypal_orders').update({ status: 'COMPLETED' }).eq('paypal_order_id', orderId);
+        return res.json({ success: true, data: captureData });
+      } else {
+        return res.status(400).json({ error: 'Payment capture failed or is pending.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ error: 'Failed to capture payment.' });
     }
   }
 
